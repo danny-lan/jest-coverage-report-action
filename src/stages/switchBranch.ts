@@ -48,24 +48,7 @@ export const checkoutRef = async (
     remoteName: string,
     newBranchName: string
 ) => {
-    try {
-        await checkoutRefNew(ref, remoteName, newBranchName);
-    } catch {
-        console.warn(
-            'Failed to perform new algorithm for checking out. ' +
-                'The action will automatically fallback and try to do as much as it could. ' +
-                'However, this may lead to inconsistent behavior. Usually, this issue is ' +
-                'caused by old version of `actions/checkout` action. Try to use modern ' +
-                'version, like `v2` or `v3`.'
-        );
-
-        try {
-            await exec(`git fetch --depth=1`);
-        } catch (err) {
-            console.warn('Error fetching git repository', err);
-        }
-        await exec(`git checkout ${ref.sha} -f`);
-    }
+    await exec(`git checkout ${ref.sha} -f`);
 };
 
 export const getCurrentBranch = async () => {
