@@ -64,7 +64,12 @@ export const checkoutRef = async (
         } catch (err) {
             console.warn('Error fetching git repository', err);
         }
-        await exec(`git checkout ${ref.ref} -f`);
+        try {
+            await exec(`git checkout ${ref.ref} -f`);
+        } catch {
+            /* Ignore error */
+        }
+        await exec(`git checkout ${ref.sha} -f`);
     }
 };
 
